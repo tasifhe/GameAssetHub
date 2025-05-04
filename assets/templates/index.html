@@ -1,0 +1,60 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameAssetHub</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="container">
+                <a href="/" class="logo">GameAssetHub</a>
+                <ul class="nav-links">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Categories</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1>Discover Premium Game Assets</h1>
+                <p>Explore a wide range of high-quality assets for your next game project.</p>
+                <a href="#" class="cta-button">Browse Assets</a>
+            </div>
+        </section>
+        <section class="featured-assets">
+            <div class="container">
+                <h2>Featured Assets</h2>
+                <div class="asset-grid">
+                    {% for asset in assets %}
+                        <div class="asset-card">
+                            <img src="{{ asset.image.url }}" alt="{{ asset.title }}">
+                            <h3>{{ asset.title }}</h3>
+                            <p>{{ asset.description|truncatewords:15 }}</p>
+                            <p class="price">${{ asset.price }}</p>
+                            <a href="#" class="details-button">View Details</a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 GameAssetHub. All rights reserved.</p>
+            <ul class="social-links">
+                <li><a href="#">Facebook</a></li>
+                <li><a href="#">Twitter</a></li>
+                <li><a href="#">Instagram</a></li>
+            </ul>
+        </div>
+    </footer>
+</body>
+</html>
