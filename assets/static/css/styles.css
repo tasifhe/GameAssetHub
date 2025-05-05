@@ -447,47 +447,78 @@ footer .social-links li a:hover {
 
 /* Authentication Section */
 .auth-section {
-    padding: 50px 20px;
-    background-color: #f9f9f9;
+    padding: 60px 20px;
+    background-color: #f4f4f4;
     text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    margin: 50px auto;
 }
 
 .auth-section h1 {
-    font-size: 36px;
+    font-size: 32px;
     margin-bottom: 20px;
     color: #333;
+    font-weight: bold;
 }
 
 .auth-section form {
-    max-width: 400px;
-    margin: 0 auto;
     text-align: left;
 }
 
 .auth-section label {
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 8px;
     font-weight: bold;
+    color: #555;
 }
 
 .auth-section input {
     width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
+    padding: 12px;
+    margin-bottom: 20px;
     border: 1px solid #ddd;
     border-radius: 5px;
+    font-size: 14px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+.auth-section input:focus {
+    border-color: #007bff;
+    outline: none;
 }
 
 .auth-section .button {
     width: 100%;
-    padding: 10px;
-    background-color: #4facfe;
+    padding: 12px;
+    background-color: #007bff;
     color: #fff;
     border: none;
     border-radius: 5px;
+    font-size: 16px;
     cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .auth-section .button:hover {
-    background-color: #00c6ff;
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+.auth-section p {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #555;
+}
+
+.auth-section p a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.auth-section p a:hover {
+    text-decoration: underline;
 }
