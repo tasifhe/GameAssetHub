@@ -46,12 +46,36 @@ header {
     text-decoration: none;
     color: #fff;
     font-size: 16px;
+    transition: color 0.3s ease;
 }
 
-.search-bar {
+.navbar .nav-links li a:hover {
+    color: #007bff;
+}
+
+.navbar .search-bar {
     display: flex;
     align-items: center;
     gap: 5px;
+}
+
+.navbar .profile-dropdown {
+    position: relative;
+}
+
+.navbar .profile-dropdown .dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    z-index: 1000;
+}
+
+.navbar .profile-dropdown:hover .dropdown-menu {
+    display: block;
 }
 
 .search-bar input {

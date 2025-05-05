@@ -6,10 +6,6 @@ def index(request):
     categories = Category.objects.all()  # Fetch all categories
     return render(request, 'index.html', {'assets': assets, 'categories': categories})
 
-def categories(request):
-    categories = Category.objects.all()
-    return render(request, 'categories.html', {'categories': categories})
-
 def mylibrary(request):
     return render(request, 'mylibrary.html')
 

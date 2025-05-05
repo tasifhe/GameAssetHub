@@ -1,64 +1,33 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Library - GameAssetHub</title>
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-</head>
-<body>
-    <header>
-        <nav class="navbar">
-            <div class="container">
-                <a href="/" class="logo">GameAssetHub</a>
-                <ul class="nav-links">
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/categories/">Categories</a></li>
-                    <li><a href="/mylibrary/">My Library</a></li>
-                    <li><a href="/publish/">Publish</a></li>
-                    <li><a href="/community/">Community</a></li>
-                    <li><a href="/about/">About</a></li>
-                    <li><a href="/contact/">Contact</a></li>
-                </ul>
-            </div>
-        </nav>
-    </header>
-    <main>
-        <section class="library">
-            <div class="container">
-                <h1>My Library</h1>
-                <p>Your purchased or downloaded assets will appear here.</p>
-                <div class="asset-grid">
-                    {% if assets %}
-                        {% for asset in assets %}
-                            <div class="asset-card">
-                                <img src="{{ asset.image.url }}" alt="{{ asset.title }}">
-                                <h3>{{ asset.title }}</h3>
-                                <p>{{ asset.description|truncatewords:15 }}</p>
-                                <p class="price">${{ asset.price }}</p>
-                                <a href="#" class="details-button">View Details</a>
-                            </div>
-                        {% endfor %}
-                    {% else %}
-                        <!-- Placeholder grayboxes -->
-                        {% for i in "123456" %}
-                            <div class="asset-card placeholder">
-                                <div class="placeholder-image"></div>
-                                <div class="placeholder-title"></div>
-                                <div class="placeholder-description"></div>
-                                <div class="placeholder-price"></div>
-                            </div>
-                        {% endfor %}
-                    {% endif %}
-                </div>
-            </div>
-        </section>
-    </main>
-    <footer>
-        <div class="container">
-            <p>&copy; 2023 GameAssetHub. All rights reserved by GRANDFLEET.</p>
+{% extends 'base.html' %}
+{% block title %}My Library - GameAssetHub{% endblock %}
+{% block content %}
+<section class="library">
+    <div class="container">
+        <h1>My Library</h1>
+        <p>Your purchased or downloaded assets will appear here.</p>
+        <div class="asset-grid">
+            {% if assets %}
+                {% for asset in assets %}
+                    <div class="asset-card">
+                        <img src="{{ asset.image.url }}" alt="{{ asset.title }}">
+                        <h3>{{ asset.title }}</h3>
+                        <p>{{ asset.description|truncatewords:15 }}</p>
+                        <p class="price">${{ asset.price }}</p>
+                        <a href="#" class="details-button">View Details</a>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <!-- Placeholder grayboxes -->
+                {% for i in "123456" %}
+                    <div class="asset-card placeholder">
+                        <div class="placeholder-image"></div>
+                        <div class="placeholder-title"></div>
+                        <div class="placeholder-description"></div>
+                        <div class="placeholder-price"></div>
+                    </div>
+                {% endfor %}
+            {% endif %}
         </div>
-    </footer>
-</body>
-</html>
+    </div>
+</section>
+{% endblock %}
