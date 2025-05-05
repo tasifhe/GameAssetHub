@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}GameAssetHub{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dark-mode.css' %}">
     <script src="{% static 'js/scripts.js' %}" defer></script>
 </head>
 <body>
@@ -17,7 +18,7 @@
                     <ul class="nav-links">
                         <li><a href="/">Home</a></li>
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle">Discover</a>
+                            <a href="/browse/" class="dropdown-toggle">Discover</a>
                             <ul class="dropdown-menu">
                                 <li><a href="/browse/?type=3D">3D Models</a></li>
                                 <li><a href="/browse/?type=Textures">Textures</a></li>
@@ -35,7 +36,7 @@
                     <div class="search-bar">
                         <input type="text" id="search-input" placeholder="Search assets...">
                         <button id="search-button" class="icon-button">
-                            <img src="{% static 'icons/search-icon.svg' %}" alt="Search" />
+                            <img src="{% static 'icons/search-icon.svg' %}?v=1.0" alt="Search" />
                         </button>
                     </div>
                     <div class="profile-dropdown">
@@ -43,10 +44,15 @@
                             <img src="{% static 'icons/profile-icon.svg' %}" alt="Account" />
                         </button>
                         <div class="dropdown-menu">
-                            <a href="/profile/">Profile</a>
-                            <a href="/settings/">Settings</a>
-                            <a href="/upload/">Upload Asset</a>
-                            <a href="/logout/">Logout</a>
+                            {% if user.is_authenticated %}
+                                <a href="/profile/">Profile</a>
+                                <a href="/settings/">Settings</a>
+                                <a href="/upload/">Upload Asset</a>
+                                <a href="/logout/">Logout</a>
+                            {% else %}
+                                <a href="/login/">Login</a>
+                                <a href="/register/">Register</a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -60,9 +66,9 @@
         <div class="container">
             <p>&copy; 2023 GameAssetHub. All rights reserved by GRANDFLEET.</p>
             <ul class="social-links">
-                <li><a href="#">Facebook</a></li>
-                <li><a href="#">Twitter</a></li>
-                <li><a href="#">Instagram</a></li>
+                <li><a href="#" aria-label="Visit our Facebook page">Facebook</a></li>
+                <li><a href="#" aria-label="Visit our Twitter profile">Twitter</a></li>
+                <li><a href="#" aria-label="Visit our Instagram profile">Instagram</a></li>
             </ul>
         </div>
     </footer>

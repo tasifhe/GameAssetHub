@@ -18,10 +18,11 @@ body {
 .navbar {
     background-color: #101014;
     border-bottom: 1px solid #444;
-    padding: 10px 20px;
+    padding: 15px 20px; /* Increased padding for better spacing */
     display: flex;
     justify-content: space-between;
     align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Added subtle shadow */
 }
 
 .navbar .logo {
@@ -47,11 +48,14 @@ body {
     text-decoration: none;
     color: #ffffff;
     font-size: 16px;
-    transition: color 0.3s ease;
+    padding: 5px 10px; /* Added padding for clickable area */
+    border-radius: 5px; /* Rounded corners for hover effect */
+    transition: color 0.3s ease, background-color 0.3s ease;
 }
 
 .nav-links li a:hover {
-    color: #007bff;
+    color: #ffffff;
+    background-color: #007bff; /* Added background color on hover */
 }
 
 .navbar .dropdown {
@@ -109,19 +113,31 @@ body {
 }
 
 .search-bar input {
-    padding: 8px 12px;
-    border: 1px solid #444;
-    border-radius: 5px;
-    background-color: #333;
+    padding: 10px 15px; /* Increased padding for better usability */
+    border: 1px solid #555; /* Slightly darker border */
+    border-radius: 8px; /* Rounded corners */
+    background-color: #222; /* Darker background for contrast */
     color: #ffffff;
+    transition: border-color 0.3s ease;
+}
+
+.search-bar input:focus {
+    border-color: #007bff; /* Highlight border on focus */
+    outline: none;
 }
 
 .search-bar button {
-    padding: 8px;
-    background-color: #444;
+    padding: 10px;
+    background-color: #555; /* Slightly darker button */
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.search-bar button:hover {
+    background-color: #007bff; /* Highlight button on hover */
+    transform: scale(1.1); /* Slight zoom effect */
 }
 
 .search-bar button img {
@@ -149,12 +165,13 @@ body {
 .profile-dropdown .dropdown-menu {
     display: none;
     position: absolute;
-    top: 100%;
+    top: calc(100% + 10px); /* Added spacing below the button */
     right: 0;
-    background-color: #333;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
+    background-color: #222; /* Darker dropdown background */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Enhanced shadow */
+    border-radius: 8px;
     z-index: 1000;
+    animation: fadeIn 0.3s ease; /* Smooth fade-in animation */
 }
 
 .profile-dropdown:hover .dropdown-menu {
@@ -163,46 +180,49 @@ body {
 
 .profile-dropdown .dropdown-menu a {
     display: block;
-    padding: 10px 15px;
+    padding: 12px 20px; /* Increased padding for better spacing */
     color: #ffffff;
     text-decoration: none;
     transition: background-color 0.3s ease;
 }
 
 .profile-dropdown .dropdown-menu a:hover {
-    background-color: #444;
+    background-color: #007bff; /* Highlight menu item on hover */
 }
 
 /* Hero Section */
 .hero {
-    background-color: #007bff;
+    background: linear-gradient(135deg, #007bff, #0056b3); /* Gradient background */
     color: #fff;
     text-align: center;
-    padding: 50px 20px;
+    padding: 60px 20px; /* Increased padding for better spacing */
+    border-radius: 10px; /* Rounded corners for a modern look */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Added shadow */
 }
 
 .hero h1 {
-    font-size: 36px;
-    margin-bottom: 10px;
+    font-size: 40px; /* Larger font size for better readability */
+    margin-bottom: 15px;
 }
 
 .hero p {
-    font-size: 18px;
-    margin-bottom: 20px;
+    font-size: 20px; /* Slightly larger font size */
+    margin-bottom: 25px;
 }
 
 .hero .cta-button {
     background-color: #0056b3;
     color: #fff;
-    padding: 10px 20px;
+    padding: 12px 25px; /* Increased padding for better spacing */
     text-decoration: none;
-    font-size: 16px;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
+    font-size: 18px; /* Larger font size */
+    border-radius: 8px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .hero .cta-button:hover {
     background-color: #003f7f;
+    transform: translateY(-3px); /* Subtle lift effect */
 }
 
 /* Filters */
@@ -245,17 +265,17 @@ body {
 .asset-card {
     background-color: #fff;
     border: 1px solid #ddd;
-    border-radius: 10px;
-    padding: 15px;
+    border-radius: 12px; /* More rounded corners */
+    padding: 20px; /* Increased padding */
     text-align: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Enhanced shadow */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     overflow: hidden;
 }
 
 .asset-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    transform: translateY(-8px); /* More pronounced lift effect */
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
 }
 
 .asset-card img {
@@ -348,7 +368,8 @@ footer {
     background-color: #101014;
     color: #ffffff;
     text-align: center;
-    padding: 20px 0;
+    padding: 25px 0; /* Increased padding */
+    border-top: 2px solid #444; /* Added border for separation */
 }
 
 footer p {
@@ -367,12 +388,13 @@ footer .social-links {
 footer .social-links li a {
     text-decoration: none;
     color: #ffffff;
-    font-size: 16px;
-    transition: color 0.3s ease;
+    font-size: 18px; /* Slightly larger font size */
+    transition: color 0.3s ease, transform 0.2s ease;
 }
 
 footer .social-links li a:hover {
     color: #007bff;
+    transform: scale(1.1); /* Slight zoom effect */
 }
 
 /* Loading Spinner */
@@ -397,4 +419,75 @@ footer .social-links li a:hover {
     100% {
         transform: rotate(360deg);
     }
+}
+
+/* Responsive Improvements */
+@media (max-width: 768px) {
+    .navbar {
+        flex-wrap: wrap; /* Allow wrapping for smaller screens */
+    }
+
+    .nav-links {
+        flex-direction: column; /* Stack links vertically */
+        gap: 10px;
+    }
+
+    .hero h1 {
+        font-size: 32px; /* Adjust font size for smaller screens */
+    }
+
+    .hero p {
+        font-size: 16px;
+    }
+
+    .asset-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Adjust grid for smaller screens */
+    }
+}
+
+/* Authentication Section */
+.auth-section {
+    padding: 50px 20px;
+    background-color: #f9f9f9;
+    text-align: center;
+}
+
+.auth-section h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.auth-section form {
+    max-width: 400px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.auth-section label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.auth-section input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.auth-section .button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4facfe;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.auth-section .button:hover {
+    background-color: #00c6ff;
 }

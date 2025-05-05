@@ -15,7 +15,6 @@
                 <a href="/" class="logo">GameAssetHub</a>
                 <ul class="nav-links">
                     <li><a href="/">Home</a></li>
-                    <li><a href="/categories/">Categories</a></li>
                     <li><a href="/mylibrary/">My Library</a></li>
                     <li><a href="/publish/">Publish</a></li>
                     <li><a href="/community/">Community</a></li>
@@ -30,12 +29,6 @@
             <div class="container">
                 <h1 class="page-title">Browse All Assets</h1>
                 <div class="filters">
-                    <select id="category-filter" class="filter-input">
-                        <option value="">All Categories</option>
-                        {% for category in categories %}
-                            <option value="{{ category.id }}">{{ category.name }}</option>
-                        {% endfor %}
-                    </select>
                     <select id="type-filter" class="filter-input">
                         <option value="">All Types</option>
                         <option value="3d">3D Models</option>
@@ -50,7 +43,7 @@
                 <div class="asset-grid">
                     {% if assets %}
                         {% for asset in assets %}
-                            <div class="asset-card" data-category="{{ asset.category.id }}" data-type="{{ asset.type }}" data-price="{{ asset.price }}">
+                            <div class="asset-card" data-type="{{ asset.type }}" data-price="{{ asset.price }}">
                                 <img src="{{ asset.image.url }}" alt="{{ asset.title }}">
                                 <h3>{{ asset.title }}</h3>
                                 <p>{{ asset.description|truncatewords:15 }}</p>
