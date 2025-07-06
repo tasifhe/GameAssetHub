@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameAssetHub - Digital Marketplace for Game Assets</title>
+    <meta name="description" content="Discover, buy, and sell high-quality game assets. From 3D models to textures, animations, and more.">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <!-- Header Component -->
+    <header id="main-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1><span class="logo-icon">🎮</span>GameAssetHub</h1>
+                </div>
+                <nav class="main-nav">
+                    <ul>
+                        <li><a href="#" class="nav-link">Discover</a></li>
+                        <li><a href="#" class="nav-link">Categories</a></li>
+                        <li><a href="#" class="nav-link">Free Assets</a></li>
+                        <li><a href="#" class="nav-link">Sell</a></li>
+                    </ul>
+                </nav>
+                <div class="header-actions">
+                    <div class="search-bar">
+                        <input type="text" placeholder="Search assets..." id="search-input">
+                        <button class="search-btn">🔍</button>
+                    </div>
+                    <div class="user-actions">
+                        <button class="btn btn-outline">Sign In</button>
+                        <button class="btn btn-primary">Sign Up</button>
+                        <div class="cart-icon">🛒</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">Discover Amazing Game Assets</h1>
+                <p class="hero-subtitle">Find high-quality 3D models, textures, animations, and more for your game development projects</p>
+                <div class="hero-actions">
+                    <button class="btn btn-primary btn-large">Explore Assets</button>
+                    <button class="btn btn-outline btn-large">Start Selling</button>
+                </div>
+            </div>
+            <div class="hero-stats">
+                <div class="stat">
+                    <span class="stat-number">50K+</span>
+                    <span class="stat-label">Assets</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">10K+</span>
+                    <span class="stat-label">Creators</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">1M+</span>
+                    <span class="stat-label">Downloads</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Content Section -->
+    <section class="featured-content">
+        <div class="container">
+            <div class="section-header">
+                <h2>Featured Content</h2>
+                <div class="section-tabs">
+                    <button class="tab-btn active" data-tab="limited-free">Limited-Time Free</button>
+                    <button class="tab-btn" data-tab="on-sale">On Sale</button>
+                    <button class="tab-btn" data-tab="recent">Recent Releases</button>
+                </div>
+            </div>
+            
+            <div class="asset-grid" id="featured-assets">
+                <!-- Asset cards will be populated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="categories">
+        <div class="container">
+            <div class="section-header">
+                <h2>Browse by Category</h2>
+                <p>Find assets that match your project needs</p>
+            </div>
+            <div class="category-grid">
+                <div class="category-card">
+                    <div class="category-icon">🏛️</div>
+                    <h3>Characters & Creatures</h3>
+                    <p>Heroes, monsters, NPCs and more</p>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">🌳</div>
+                    <h3>Nature & Plants</h3>
+                    <p>Trees, rocks, landscapes</p>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">🏢</div>
+                    <h3>Buildings & Architecture</h3>
+                    <p>Structures, props, environments</p>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">⚔️</div>
+                    <h3>Weapons & Items</h3>
+                    <p>Swords, guns, tools, collectibles</p>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">🎨</div>
+                    <h3>Textures & Materials</h3>
+                    <p>PBR materials, textures, shaders</p>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">🎭</div>
+                    <h3>Animations</h3>
+                    <p>Character animations, VFX</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Popular Sellers Section -->
+    <section class="popular-sellers">
+        <div class="container">
+            <div class="section-header">
+                <h2>Featured Sellers</h2>
+                <a href="#" class="view-all-link">View All</a>
+            </div>
+            <div class="seller-grid">
+                <!-- Seller cards will be populated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="newsletter">
+        <div class="container">
+            <div class="newsletter-content">
+                <h2>Stay Updated</h2>
+                <p>Get the latest GameAssetHub news, releases, and special offers straight to your inbox.</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Enter your email" required>
+                    <button type="submit" class="btn btn-primary">Subscribe</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="main-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>GameAssetHub</h3>
+                    <p>Your premier destination for game assets</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link">📘</a>
+                        <a href="#" class="social-link">🐦</a>
+                        <a href="#" class="social-link">📷</a>
+                        <a href="#" class="social-link">🎬</a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Marketplace</h4>
+                    <ul>
+                        <li><a href="#">Browse Assets</a></li>
+                        <li><a href="#">Free Content</a></li>
+                        <li><a href="#">Popular Assets</a></li>
+                        <li><a href="#">New Releases</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Creators</h4>
+                    <ul>
+                        <li><a href="#">Sell on GameAssetHub</a></li>
+                        <li><a href="#">Creator Resources</a></li>
+                        <li><a href="#">Community</a></li>
+                        <li><a href="#">Support</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="#">Legal</a></li>
+                        <li><a href="#">Privacy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 GameAssetHub. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/components.js"></script>
+    <script src="js/utils.js"></script>
+</body>
+</html>
