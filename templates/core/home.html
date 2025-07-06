@@ -1,0 +1,276 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section py-5 bg-primary text-white">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold mb-4">
+                    Discover Amazing Game Assets
+                </h1>
+                <p class="lead mb-4">
+                    Browse thousands of high-quality 3D models, textures, animations, and tools created by talented developers worldwide.
+                </p>
+                <div class="d-flex gap-3">
+                    <a href="{% url 'assets:asset_list' %}" class="btn btn-light btn-lg">
+                        <i class="fas fa-search"></i> Browse Assets
+                    </a>
+                    {% if not user.is_authenticated %}
+                        <a href="{% url 'accounts:register' %}" class="btn btn-outline-light btn-lg">
+                            <i class="fas fa-user-plus"></i> Join Now
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <img src="{% static 'images/hero-banner.jpg' %}" alt="Game Assets" class="img-fluid rounded shadow">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Assets Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center mb-5">
+                <h2 class="display-5 fw-bold">Featured Assets</h2>
+                <p class="lead">Hand-picked assets from our top creators</p>
+            </div>
+        </div>
+        
+        <div class="row">
+            {% for asset in featured_assets %}
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="position-relative">
+                            {% if asset.preview_image %}
+                                <img src="{{ asset.preview_image.url }}" class="card-img-top" alt="{{ asset.title }}" style="height: 200px; object-fit: cover;">
+                            {% else %}
+                                <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                                    <i class="fas fa-image fa-3x text-muted"></i>
+                                </div>
+                            {% endif %}
+                            
+                            {% if asset.is_free %}
+                                <span class="badge bg-success position-absolute top-0 end-0 m-2">FREE</span>
+                            {% else %}
+                                <span class="badge bg-primary position-absolute top-0 end-0 m-2">${{ asset.price }}</span>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <a href="{% url 'assets:asset_detail' asset.pk %}" class="text-decoration-none">
+                                    {{ asset.title }}
+                                </a>
+                            </h5>
+                            <p class="card-text text-muted">
+                                by <a href="{% url 'accounts:seller_profile' asset.owner.username %}" class="text-decoration-none">{{ asset.owner.username }}</a>
+                            </p>
+                            <p class="card-text">{{ asset.description|truncatewords:20 }}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <small class="text-muted">{{ asset.category.name }}</small>
+                                <div class="rating">
+                                    {% for i in "12345" %}
+                                        {% if forloop.counter <= asset.average_rating %}
+                                            <i class="fas fa-star text-warning"></i>
+                                        {% else %}
+                                            <i class="far fa-star text-warning"></i>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="col-12 text-center">
+                    <p class="lead">No featured assets available.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Categories Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center mb-5">
+                <h2 class="display-5 fw-bold">Browse by Category</h2>
+                <p class="lead">Find assets that match your project needs</p>
+            </div>
+        </div>
+        
+        <div class="row">
+            {% for category in categories %}
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                    <div class="card h-100 shadow-sm category-card">
+                        <div class="card-body text-center">
+                            <div class="category-icon mb-3">
+                                <span style="font-size: 3rem;">{{ category.icon }}</span>
+                            </div>
+                            <h5 class="card-title">{{ category.name }}</h5>
+                            <p class="card-text">{{ category.description }}</p>
+                            <a href="{% url 'assets:category_detail' category.slug %}" class="btn btn-outline-primary btn-sm">
+                                Browse Category
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="col-12 text-center">
+                    <p class="lead">No categories available.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Recent Assets Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center mb-5">
+                <h2 class="display-5 fw-bold">Latest Assets</h2>
+                <p class="lead">Fresh content from our community</p>
+            </div>
+        </div>
+        
+        <div class="row">
+            {% for asset in recent_assets %}
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="position-relative">
+                            {% if asset.preview_image %}
+                                <img src="{{ asset.preview_image.url }}" class="card-img-top" alt="{{ asset.title }}" style="height: 150px; object-fit: cover;">
+                            {% else %}
+                                <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 150px;">
+                                    <i class="fas fa-image fa-2x text-muted"></i>
+                                </div>
+                            {% endif %}
+                            
+                            {% if asset.is_free %}
+                                <span class="badge bg-success position-absolute top-0 end-0 m-2">FREE</span>
+                            {% else %}
+                                <span class="badge bg-primary position-absolute top-0 end-0 m-2">${{ asset.price }}</span>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="card-body">
+                            <h6 class="card-title">
+                                <a href="{% url 'assets:asset_detail' asset.pk %}" class="text-decoration-none">
+                                    {{ asset.title|truncatewords:5 }}
+                                </a>
+                            </h6>
+                            <p class="card-text text-muted small">
+                                by {{ asset.owner.username }}
+                            </p>
+                            <small class="text-muted">{{ asset.category.name }}</small>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="col-12 text-center">
+                    <p class="lead">No recent assets available.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Top Sellers Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center mb-5">
+                <h2 class="display-5 fw-bold">Top Sellers</h2>
+                <p class="lead">Meet our talented creators</p>
+            </div>
+        </div>
+        
+        <div class="row">
+            {% for seller in top_sellers %}
+                <div class="col-lg-2 col-md-4 col-sm-6 mb-4">
+                    <div class="card h-100 shadow-sm text-center">
+                        <div class="card-body">
+                            <div class="seller-avatar mb-3">
+                                {% if seller.profile_picture %}
+                                    <img src="{{ seller.profile_picture.url }}" alt="{{ seller.username }}" class="rounded-circle" width="60" height="60">
+                                {% else %}
+                                    <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center mx-auto" style="width: 60px; height: 60px;">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <h6 class="card-title">{{ seller.username }}</h6>
+                            <p class="card-text small text-muted">
+                                {{ seller.assets.count }} assets
+                            </p>
+                            <a href="{% url 'accounts:seller_profile' seller.username %}" class="btn btn-outline-primary btn-sm">
+                                View Profile
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="col-12 text-center">
+                    <p class="lead">No sellers available.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action Section -->
+<section class="py-5 bg-primary text-white">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="display-5 fw-bold mb-4">Ready to Start Creating?</h2>
+                <p class="lead mb-4">Join thousands of developers who trust GameAssetHub for their projects.</p>
+                <div class="d-flex justify-content-center gap-3">
+                    {% if not user.is_authenticated %}
+                        <a href="{% url 'accounts:register' %}" class="btn btn-light btn-lg">
+                            <i class="fas fa-user-plus"></i> Sign Up Free
+                        </a>
+                    {% endif %}
+                    {% if user.is_authenticated and not user.is_seller %}
+                        <a href="{% url 'accounts:become_seller' %}" class="btn btn-outline-light btn-lg">
+                            <i class="fas fa-store"></i> Become a Seller
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.category-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.category-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.hero-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.rating {
+    font-size: 0.9rem;
+}
+
+.seller-avatar img {
+    object-fit: cover;
+}
+</style>
+{% endblock %}
