@@ -1,5 +1,218 @@
 // Main JavaScript for GameAssetHub
 
+// Hero Slideshow Variables
+let currentSlideIndex = 0;
+let slideInterval;
+const slideAutoAdvanceDelay = 8000; // 8 seconds
+const slideTransitionDuration = 800; // 0.8 seconds
+
+// Hero Slideshow Functions
+function initializeHeroSlideshow() {
+    const slides = document.querySelectorAll('.hero-slide');
+    const indicators = document.querySelectorAll('.indicator');
+    
+    if (slides.length === 0) return;
+    
+    // Set up initial state
+    updateSlideVisibility();
+    
+    // Start auto-advance
+    startSlideshow();
+    
+    // Add event listeners for manual navigation
+    setupSlideNavigation();
+    
+    // Add touch/swipe support
+    setupTouchNavigation();
+    
+    // Pause slideshow on hover
+    const heroSection = document.querySelector('.hero');
+    if (heroSection) {
+        heroSection.addEventListener('mouseenter', pauseSlideshow);
+        heroSection.addEventListener('mouseleave', startSlideshow);
+    }
+}
+
+function updateSlideVisibility() {
+    const slides = document.querySelectorAll('.hero-slide');
+    const indicators = document.querySelectorAll('.indicator');
+    
+    slides.forEach((slide, index) => {
+        slide.classList.remove('active', 'prev');
+        if (index === currentSlideIndex) {
+            slide.classList.add('active');
+        } else if (index === currentSlideIndex - 1 || (currentSlideIndex === 0 && index === slides.length - 1)) {
+            slide.classList.add('prev');
+        }
+    });
+    
+    // Update indicators
+    indicators.forEach((indicator, index) => {
+        indicator.classList.toggle('active', index === currentSlideIndex);
+    });
+}
+
+function nextSlide() {
+    const slides = document.querySelectorAll('.hero-slide');
+    currentSlideIndex = (currentSlideIndex + 1) % slides.length;
+    updateSlideVisibility();
+    
+    // Add slide direction for better animation
+    const currentSlide = slides[currentSlideIndex];
+    currentSlide.style.transform = 'translateX(100%)';
+    setTimeout(() => {
+        currentSlide.style.transform = 'translateX(0)';
+    }, 10);
+}
+
+function prevSlide() {
+    const slides = document.querySelectorAll('.hero-slide');
+    currentSlideIndex = (currentSlideIndex - 1 + slides.length) % slides.length;
+    updateSlideVisibility();
+    
+    // Add slide direction for better animation
+    const currentSlide = slides[currentSlideIndex];
+    currentSlide.style.transform = 'translateX(-100%)';
+    setTimeout(() => {
+        currentSlide.style.transform = 'translateX(0)';
+    }, 10);
+}
+
+function goToSlide(index) {
+    const slides = document.querySelectorAll('.hero-slide');
+    if (index >= 0 && index < slides.length) {
+        const direction = index > currentSlideIndex ? 1 : -1;
+        currentSlideIndex = index;
+        updateSlideVisibility();
+        
+        // Add appropriate slide direction
+        const currentSlide = slides[currentSlideIndex];
+        currentSlide.style.transform = `translateX(${direction * 100}%)`;
+        setTimeout(() => {
+            currentSlide.style.transform = 'translateX(0)';
+        }, 10);
+    }
+}
+
+function startSlideshow() {
+    pauseSlideshow(); // Clear any existing interval
+    slideInterval = setInterval(nextSlide, slideAutoAdvanceDelay);
+    
+    // Start progress bar animation
+    const progressBar = document.querySelector('.progress-bar');
+    if (progressBar) {
+        progressBar.classList.remove('animate');
+        // Force reflow to restart animation
+        progressBar.offsetWidth;
+        progressBar.classList.add('animate');
+    }
+}
+
+function pauseSlideshow() {
+    if (slideInterval) {
+        clearInterval(slideInterval);
+        slideInterval = null;
+    }
+    
+    // Pause progress bar animation
+    const progressBar = document.querySelector('.progress-bar');
+    if (progressBar) {
+        progressBar.classList.remove('animate');
+    }
+}
+
+function setupSlideNavigation() {
+    // Previous/Next button event listeners
+    const prevBtn = document.querySelector('.hero-nav-btn.prev');
+    const nextBtn = document.querySelector('.hero-nav-btn.next');
+    
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+            prevSlide();
+            startSlideshow(); // Restart auto-advance
+        });
+    }
+    
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+            nextSlide();
+            startSlideshow(); // Restart auto-advance
+        });
+    }
+    
+    // Indicator event listeners
+    const indicators = document.querySelectorAll('.indicator');
+    indicators.forEach((indicator, index) => {
+        indicator.addEventListener('click', () => {
+            goToSlide(index);
+            startSlideshow(); // Restart auto-advance
+        });
+    });
+    
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') {
+            prevSlide();
+            startSlideshow();
+        } else if (e.key === 'ArrowRight') {
+            nextSlide();
+            startSlideshow();
+        }
+    });
+}
+
+// Touch/Swipe Support
+function setupTouchNavigation() {
+    const heroSlideshow = document.querySelector('.hero-slideshow');
+    if (!heroSlideshow) return;
+    
+    let startX = 0;
+    let startY = 0;
+    let isTouch = false;
+    
+    heroSlideshow.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+        isTouch = true;
+        pauseSlideshow();
+    }, { passive: true });
+    
+    heroSlideshow.addEventListener('touchmove', (e) => {
+        if (!isTouch) return;
+        
+        const deltaX = e.touches[0].clientX - startX;
+        const deltaY = e.touches[0].clientY - startY;
+        
+        // Prevent vertical scroll if horizontal swipe is detected
+        if (Math.abs(deltaX) > Math.abs(deltaY)) {
+            e.preventDefault();
+        }
+    }, { passive: false });
+    
+    heroSlideshow.addEventListener('touchend', (e) => {
+        if (!isTouch) return;
+        
+        const endX = e.changedTouches[0].clientX;
+        const endY = e.changedTouches[0].clientY;
+        const deltaX = endX - startX;
+        const deltaY = endY - startY;
+        
+        // Check if it's a horizontal swipe (more horizontal than vertical)
+        if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 50) {
+            if (deltaX > 0) {
+                prevSlide(); // Swipe right = previous slide
+            } else {
+                nextSlide(); // Swipe left = next slide
+            }
+        }
+        
+        isTouch = false;
+        startSlideshow();
+    }, { passive: true });
+}
+
+// Main JavaScript for GameAssetHub
+
 // Sample data for demonstration
 const sampleAssets = [
     {
@@ -114,6 +327,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Initialize the application
 function initializeApp() {
+    // Initialize hero slideshow
+    initializeHeroSlideshow();
+    
     // Load featured assets
     loadFeaturedAssets();
     

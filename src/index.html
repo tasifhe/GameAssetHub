@@ -41,29 +41,206 @@
         </div>
     </header>
 
-    <!-- Hero Section -->
+    <!-- Hero Section with Slideshow -->
     <section class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <h1 class="hero-title">Discover Amazing Game Assets</h1>
-                <p class="hero-subtitle">Find high-quality 3D models, textures, animations, and more for your game development projects</p>
-                <div class="hero-actions">
-                    <button class="btn btn-primary btn-large">Explore Assets</button>
-                    <button class="btn btn-outline btn-large">Start Selling</button>
+        <div class="hero-slideshow">
+            <!-- Slide 1: Featured Content -->
+            <div class="hero-slide active" data-slide="featured">
+                <div class="hero-background" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                    <div class="hero-overlay"></div>
+                </div>
+                <div class="container">
+                    <div class="hero-content">
+                        <div class="hero-text">
+                            <span class="hero-badge">🔥 Featured Content</span>
+                            <h1 class="hero-title">Premium Game Assets</h1>
+                            <p class="hero-subtitle">Discover hand-picked, high-quality 3D models, textures, and animations from top creators</p>
+                            <div class="hero-actions">
+                                <button class="btn btn-primary btn-large">Browse Featured</button>
+                                <button class="btn btn-outline btn-large">View Collection</button>
+                            </div>
+                        </div>
+                        <div class="hero-visual">
+                            <div class="featured-grid">
+                                <div class="featured-item">🏰</div>
+                                <div class="featured-item">⚔️</div>
+                                <div class="featured-item">🌲</div>
+                                <div class="featured-item">🎨</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="hero-stats">
-                <div class="stat">
-                    <span class="stat-number">50K+</span>
-                    <span class="stat-label">Assets</span>
+
+            <!-- Slide 2: Categories -->
+            <div class="hero-slide" data-slide="categories">
+                <div class="hero-background" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                    <div class="hero-overlay"></div>
                 </div>
-                <div class="stat">
-                    <span class="stat-number">10K+</span>
-                    <span class="stat-label">Creators</span>
+                <div class="container">
+                    <div class="hero-content">
+                        <div class="hero-text">
+                            <span class="hero-badge">📂 Categories</span>
+                            <h1 class="hero-title">Everything You Need</h1>
+                            <p class="hero-subtitle">Browse through our extensive collection of game assets organized by category</p>
+                            <div class="hero-actions">
+                                <button class="btn btn-primary btn-large">Explore Categories</button>
+                                <button class="btn btn-outline btn-large">View All</button>
+                            </div>
+                        </div>
+                        <div class="hero-visual">
+                            <div class="category-showcase">
+                                <div class="category-item">
+                                    <div class="category-icon">🏛️</div>
+                                    <span>Characters</span>
+                                </div>
+                                <div class="category-item">
+                                    <div class="category-icon">🌳</div>
+                                    <span>Nature</span>
+                                </div>
+                                <div class="category-item">
+                                    <div class="category-icon">🏢</div>
+                                    <span>Buildings</span>
+                                </div>
+                                <div class="category-item">
+                                    <div class="category-icon">⚔️</div>
+                                    <span>Weapons</span>
+                                </div>
+                                <div class="category-item">
+                                    <div class="category-icon">🎨</div>
+                                    <span>Textures</span>
+                                </div>
+                                <div class="category-item">
+                                    <div class="category-icon">🎭</div>
+                                    <span>Animations</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="stat">
-                    <span class="stat-number">1M+</span>
-                    <span class="stat-label">Downloads</span>
+            </div>
+
+            <!-- Slide 3: New Assets -->
+            <div class="hero-slide" data-slide="new">
+                <div class="hero-background" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                    <div class="hero-overlay"></div>
+                </div>
+                <div class="container">
+                    <div class="hero-content">
+                        <div class="hero-text">
+                            <span class="hero-badge">✨ New Releases</span>
+                            <h1 class="hero-title">Fresh Content Daily</h1>
+                            <p class="hero-subtitle">Stay up-to-date with the latest game assets from our talented creator community</p>
+                            <div class="hero-actions">
+                                <button class="btn btn-primary btn-large">View New Assets</button>
+                                <button class="btn btn-outline btn-large">Subscribe</button>
+                            </div>
+                        </div>
+                        <div class="hero-visual">
+                            <div class="new-assets-grid">
+                                <div class="new-asset-item">
+                                    <div class="asset-preview">🐉</div>
+                                    <div class="asset-info">
+                                        <span class="asset-title">Dragon Pack</span>
+                                        <span class="asset-date">2 days ago</span>
+                                    </div>
+                                </div>
+                                <div class="new-asset-item">
+                                    <div class="asset-preview">🌊</div>
+                                    <div class="asset-info">
+                                        <span class="asset-title">Ocean Shader</span>
+                                        <span class="asset-date">3 days ago</span>
+                                    </div>
+                                </div>
+                                <div class="new-asset-item">
+                                    <div class="asset-preview">🏔️</div>
+                                    <div class="asset-info">
+                                        <span class="asset-title">Mountain Terrain</span>
+                                        <span class="asset-date">5 days ago</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 4: Free Content -->
+            <div class="hero-slide" data-slide="free">
+                <div class="hero-background" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                    <div class="hero-overlay"></div>
+                </div>
+                <div class="container">
+                    <div class="hero-content">
+                        <div class="hero-text">
+                            <span class="hero-badge">🎁 Free Assets</span>
+                            <h1 class="hero-title">Get Started for Free</h1>
+                            <p class="hero-subtitle">Download high-quality game assets at no cost and kickstart your game development journey</p>
+                            <div class="hero-actions">
+                                <button class="btn btn-primary btn-large">Browse Free Assets</button>
+                                <button class="btn btn-outline btn-large">Limited Time</button>
+                            </div>
+                        </div>
+                        <div class="hero-visual">
+                            <div class="free-assets-grid">
+                                <div class="free-asset-item">
+                                    <div class="asset-icon">🎮</div>
+                                    <div class="free-badge">FREE</div>
+                                </div>
+                                <div class="free-asset-item">
+                                    <div class="asset-icon">🎯</div>
+                                    <div class="free-badge">FREE</div>
+                                </div>
+                                <div class="free-asset-item">
+                                    <div class="asset-icon">🎪</div>
+                                    <div class="free-badge">FREE</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide Navigation -->
+            <div class="hero-nav">
+                <button class="hero-nav-btn prev" onclick="changeSlide(-1)">❮</button>
+                <button class="hero-nav-btn next" onclick="changeSlide(1)">❯</button>
+            </div>
+
+            <!-- Slide Indicators -->
+            <div class="hero-indicators">
+                <button class="indicator active" onclick="currentSlide(1)"></button>
+                <button class="indicator" onclick="currentSlide(2)"></button>
+                <button class="indicator" onclick="currentSlide(3)"></button>
+                <button class="indicator" onclick="currentSlide(4)"></button>
+            </div>
+
+            <!-- Slideshow Progress Bar -->
+            <div class="slideshow-progress">
+                <div class="progress-bar"></div>
+            </div>
+        </div>
+
+        <!-- Hero Stats -->
+        <div class="hero-stats-section">
+            <div class="container">
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-number">50K+</span>
+                        <span class="stat-label">Assets</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">10K+</span>
+                        <span class="stat-label">Creators</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">1M+</span>
+                        <span class="stat-label">Downloads</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">150+</span>
+                        <span class="stat-label">Countries</span>
+                    </div>
                 </div>
             </div>
         </div>
