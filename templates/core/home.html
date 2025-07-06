@@ -2,180 +2,259 @@
 {% load static %}
 
 {% block content %}
-<!-- Hero Section -->
-<section class="hero-section py-5 bg-primary text-white">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-6">
-                <h1 class="display-4 fw-bold mb-4">
-                    Discover Amazing Game Assets
-                </h1>
-                <p class="lead mb-4">
-                    Browse thousands of high-quality 3D models, textures, animations, and tools created by talented developers worldwide.
-                </p>
-                <div class="d-flex gap-3">
-                    <a href="{% url 'assets:asset_list' %}" class="btn btn-light btn-lg">
-                        <i class="fas fa-search"></i> Browse Assets
-                    </a>
-                    {% if not user.is_authenticated %}
-                        <a href="{% url 'accounts:register' %}" class="btn btn-outline-light btn-lg">
-                            <i class="fas fa-user-plus"></i> Join Now
-                        </a>
-                    {% endif %}
-                </div>
+<!-- Main content starts here. Navigation is handled by base.html -->
+
+<!-- Fab.com-style Hero Section with Slideshow -->
+<section class="fab-hero d-flex flex-column justify-content-center align-items-center text-center py-7 position-relative bg-white">
+  <div class="container position-relative z-2">
+    <div id="heroCarousel" class="carousel slide mb-5" data-bs-ride="carousel" data-bs-interval="5000">
+      <div class="carousel-inner rounded-4 shadow-lg overflow-hidden">
+        {% if featured_assets.limited_free|length > 0 %}
+          {% for slide in featured_assets.limited_free|slice:':3' %}
+          <div class="carousel-item {% if forloop.first %}active{% endif %}">
+            <div class="row align-items-center justify-content-center">
+              <div class="col-md-6 mb-4 mb-md-0">
+                <img src="{{ slide.preview_image.url }}" class="d-block w-100 object-fit-cover hero-slide-img" alt="{{ slide.title }}">
+              </div>
+              <div class="col-md-6 text-md-start text-center">
+                <h2 class="display-4 fw-bold mb-3 text-dark">{{ slide.title }}</h2>
+                <p class="lead text-secondary mb-4">{{ slide.description|truncatewords:18 }}</p>
+                <a href="#featured-assets" class="btn btn-fab-primary btn-lg px-5 py-3 rounded-pill">View Asset</a>
+              </div>
             </div>
-            <div class="col-lg-6">
-                <img src="{% static 'images/hero-banner.jpg' %}" alt="Game Assets" class="img-fluid rounded shadow">
+          </div>
+          {% endfor %}
+        {% else %}
+          <div class="carousel-item active">
+            <div class="row align-items-center justify-content-center">
+              <div class="col-md-6 mb-4 mb-md-0">
+                <img src="{% static 'assets/hero-placeholder.jpg' %}" class="d-block w-100 object-fit-cover hero-slide-img" alt="Featured Asset">
+              </div>
+              <div class="col-md-6 text-md-start text-center">
+                <h2 class="display-4 fw-bold mb-3 text-dark">Discover Premium Game Assets</h2>
+                <p class="lead text-secondary mb-4">Curated 3D models, textures, and animations from top creators. For your next hit game.</p>
+                <a href="#featured-assets" class="btn btn-fab-primary btn-lg px-5 py-3 rounded-pill">Shop the Collection</a>
+              </div>
             </div>
-        </div>
+          </div>
+        {% endif %}
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
     </div>
+  </div>
 </section>
 
-<!-- Featured Assets Section -->
-<section class="py-5">
-    <div class="container">
-        <div class="row">
-            <div class="col-12 text-center mb-5">
-                <h2 class="display-5 fw-bold">Featured Assets</h2>
-                <p class="lead">Hand-picked assets from our top creators</p>
-            </div>
-        </div>
-        
-        <div class="row">
-            {% for asset in featured_assets %}
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card h-100 shadow-sm">
-                        <div class="position-relative">
-                            {% if asset.preview_image %}
-                                <img src="{{ asset.preview_image.url }}" class="card-img-top" alt="{{ asset.title }}" style="height: 200px; object-fit: cover;">
-                            {% else %}
-                                <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
-                                    <i class="fas fa-image fa-3x text-muted"></i>
-                                </div>
-                            {% endif %}
-                            
-                            {% if asset.is_free %}
-                                <span class="badge bg-success position-absolute top-0 end-0 m-2">FREE</span>
-                            {% else %}
-                                <span class="badge bg-primary position-absolute top-0 end-0 m-2">${{ asset.price }}</span>
-                            {% endif %}
-                        </div>
-                        
-                        <div class="card-body">
-                            <h5 class="card-title">
-                                <a href="{% url 'assets:asset_detail' asset.pk %}" class="text-decoration-none">
-                                    {{ asset.title }}
-                                </a>
-                            </h5>
-                            <p class="card-text text-muted">
-                                by <a href="{% url 'accounts:seller_profile' asset.owner.username %}" class="text-decoration-none">{{ asset.owner.username }}</a>
-                            </p>
-                            <p class="card-text">{{ asset.description|truncatewords:20 }}</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <small class="text-muted">{{ asset.category.name }}</small>
-                                <div class="rating">
-                                    {% for i in "12345" %}
-                                        {% if forloop.counter <= asset.average_rating %}
-                                            <i class="fas fa-star text-warning"></i>
-                                        {% else %}
-                                            <i class="far fa-star text-warning"></i>
-                                        {% endif %}
-                                    {% endfor %}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            {% empty %}
-                <div class="col-12 text-center">
-                    <p class="lead">No featured assets available.</p>
-                </div>
-            {% endfor %}
-        </div>
+<!-- Fab.com-style Featured Carousel -->
+<section class="fab-featured py-6 bg-light border-0">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-end mb-4">
+      <h2 class="fw-bold display-6 mb-0">Featured</h2>
+      <div class="fab-featured-tabs d-flex gap-2">
+        <button class="tab-btn active btn btn-outline-dark px-4 py-2 rounded-pill shadow-sm" data-tab="limited-free">Limited-Time Free</button>
+        <button class="tab-btn btn btn-outline-dark px-4 py-2 rounded-pill shadow-sm" data-tab="on-sale">On Sale</button>
+        <button class="tab-btn btn btn-outline-dark px-4 py-2 rounded-pill shadow-sm" data-tab="recent">Recent</button>
+      </div>
     </div>
+    <div id="featured-assets">
+      <div class="tab-content active" id="tab-limited-free">
+        <div id="fabFeaturedCarousel-limited-free" class="carousel slide fab-featured-carousel" data-bs-ride="carousel" data-bs-interval="7000">
+          <div class="carousel-inner">
+            {% if featured_assets.limited_free|length > 0 %}
+              {% for asset in featured_assets.limited_free %}
+              <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                <div class="d-flex justify-content-center">
+                  <div class="card shadow-fab border-0 rounded-5 overflow-hidden fab-product-card featured-carousel-card animate__animated animate__fadeInUp">
+                    <img src="{{ asset.preview_image.url }}" class="card-img-top object-fit-cover fab-product-img mx-auto" alt="{{ asset.title }}">
+                    <div class="card-body px-4 py-3 flex-grow-1 d-flex flex-column justify-content-between">
+                      <h5 class="card-title mb-2 fw-bold fs-4 text-center">{{ asset.title }}</h5>
+                      <p class="card-text small text-muted mb-3 text-center">{{ asset.description|truncatewords:16 }}</p>
+                    </div>
+                    <div class="card-footer bg-white border-0 px-4 py-3 d-flex justify-content-between align-items-center w-100">
+                      <span class="badge bg-success px-3 py-2">{{ asset.category.name }}</span>
+                      <span class="badge bg-dark px-3 py-2">FREE</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+            {% else %}
+              <div class="carousel-item active">
+                <div class="d-flex justify-content-center">
+                  <div class="card shadow-fab border-0 rounded-5 overflow-hidden fab-product-card featured-carousel-card animate__animated animate__fadeInUp">
+                    <img src="{% static 'assets/hero-placeholder.jpg' %}" class="card-img-top object-fit-cover fab-product-img mx-auto" alt="No Asset">
+                    <div class="card-body px-4 py-3 flex-grow-1 d-flex flex-column justify-content-between">
+                      <h5 class="card-title mb-2 fw-bold fs-4 text-center">No limited-time free assets</h5>
+                      <p class="card-text small text-muted mb-3 text-center">Check back soon for exclusive free assets!</p>
+                    </div>
+                    <div class="card-footer bg-white border-0 px-4 py-3 d-flex justify-content-between align-items-center w-100">
+                      <span class="badge bg-secondary px-3 py-2">N/A</span>
+                      <span class="badge bg-dark px-3 py-2">FREE</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#fabFeaturedCarousel-limited-free" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#fabFeaturedCarousel-limited-free" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+      </div>
+      <div class="tab-content" id="tab-on-sale" style="display:none;">
+        <div id="fabFeaturedCarousel-on-sale" class="carousel slide fab-featured-carousel" data-bs-ride="carousel" data-bs-interval="7000">
+          <div class="carousel-inner">
+            {% if featured_assets.on_sale|length > 0 %}
+              {% for asset in featured_assets.on_sale %}
+              <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                <div class="d-flex justify-content-center">
+                  <div class="card shadow-fab border-0 rounded-5 overflow-hidden fab-product-card featured-carousel-card animate__animated animate__fadeInUp">
+                    <img src="{{ asset.preview_image.url }}" class="card-img-top object-fit-cover fab-product-img mx-auto" alt="{{ asset.title }}">
+                    <div class="card-body px-4 py-3 flex-grow-1 d-flex flex-column justify-content-between">
+                      <h5 class="card-title mb-2 fw-bold fs-4 text-center">{{ asset.title }}</h5>
+                      <p class="card-text small text-muted mb-3 text-center">{{ asset.description|truncatewords:16 }}</p>
+                    </div>
+                    <div class="card-footer bg-white border-0 px-4 py-3 d-flex justify-content-between align-items-center w-100">
+                      <span class="badge bg-success px-3 py-2">{{ asset.category.name }}</span>
+                      <span class="badge bg-danger px-3 py-2">${{ asset.price }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+            {% else %}
+              <div class="carousel-item active">
+                <div class="d-flex justify-content-center">
+                  <div class="card shadow-fab border-0 rounded-5 overflow-hidden fab-product-card featured-carousel-card animate__animated animate__fadeInUp">
+                    <img src="{% static 'assets/hero-placeholder.jpg' %}" class="card-img-top object-fit-cover fab-product-img mx-auto" alt="No Asset">
+                    <div class="card-body px-4 py-3 flex-grow-1 d-flex flex-column justify-content-between">
+                      <h5 class="card-title mb-2 fw-bold fs-4 text-center">No on-sale assets</h5>
+                      <p class="card-text small text-muted mb-3 text-center">Check back soon for great deals!</p>
+                    </div>
+                    <div class="card-footer bg-white border-0 px-4 py-3 d-flex justify-content-between align-items-center w-100">
+                      <span class="badge bg-secondary px-3 py-2">N/A</span>
+                      <span class="badge bg-danger px-3 py-2">SALE</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#fabFeaturedCarousel-on-sale" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#fabFeaturedCarousel-on-sale" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+      </div>
+      <div class="tab-content" id="tab-recent" style="display:none;">
+        <div id="fabFeaturedCarousel-recent" class="carousel slide fab-featured-carousel" data-bs-ride="carousel" data-bs-interval="7000">
+          <div class="carousel-inner">
+            {% if featured_assets.recent|length > 0 %}
+              {% for asset in featured_assets.recent %}
+              <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                <div class="d-flex justify-content-center">
+                  <div class="card shadow-fab border-0 rounded-5 overflow-hidden fab-product-card featured-carousel-card animate__animated animate__fadeInUp">
+                    <img src="{{ asset.preview_image.url }}" class="card-img-top object-fit-cover fab-product-img mx-auto" alt="{{ asset.title }}">
+                    <div class="card-body px-4 py-3 flex-grow-1 d-flex flex-column justify-content-between">
+                      <h5 class="card-title mb-2 fw-bold fs-4 text-center">{{ asset.title }}</h5>
+                      <p class="card-text small text-muted mb-3 text-center">{{ asset.description|truncatewords:16 }}</p>
+                    </div>
+                    <div class="card-footer bg-white border-0 px-4 py-3 d-flex justify-content-between align-items-center w-100">
+                      <span class="badge bg-success px-3 py-2">{{ asset.category.name }}</span>
+                      {% if asset.is_free %}
+                        <span class="badge bg-dark px-3 py-2">FREE</span>
+                      {% else %}
+                        <span class="badge bg-dark px-3 py-2">${{ asset.price }}</span>
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+            {% else %}
+              <div class="carousel-item active">
+                <div class="d-flex justify-content-center">
+                  <div class="card shadow-fab border-0 rounded-5 overflow-hidden fab-product-card featured-carousel-card animate__animated animate__fadeInUp">
+                    <img src="{% static 'assets/hero-placeholder.jpg' %}" class="card-img-top object-fit-cover fab-product-img mx-auto" alt="No Asset">
+                    <div class="card-body px-4 py-3 flex-grow-1 d-flex flex-column justify-content-between">
+                      <h5 class="card-title mb-2 fw-bold fs-4 text-center">No recent assets</h5>
+                      <p class="card-text small text-muted mb-3 text-center">Check back soon for the latest additions!</p>
+                    </div>
+                    <div class="card-footer bg-white border-0 px-4 py-3 d-flex justify-content-between align-items-center w-100">
+                      <span class="badge bg-secondary px-3 py-2">N/A</span>
+                      <span class="badge bg-dark px-3 py-2">NEW</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#fabFeaturedCarousel-recent" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#fabFeaturedCarousel-recent" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
-<!-- Categories Section -->
-<section class="py-5 bg-light">
-    <div class="container">
-        <div class="row">
-            <div class="col-12 text-center mb-5">
-                <h2 class="display-5 fw-bold">Browse by Category</h2>
-                <p class="lead">Find assets that match your project needs</p>
-            </div>
-        </div>
-        
-        <div class="row">
-            {% for category in categories %}
-                <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-                    <div class="card h-100 shadow-sm category-card">
-                        <div class="card-body text-center">
-                            <div class="category-icon mb-3">
-                                <span style="font-size: 3rem;">{{ category.icon }}</span>
-                            </div>
-                            <h5 class="card-title">{{ category.name }}</h5>
-                            <p class="card-text">{{ category.description }}</p>
-                            <a href="{% url 'assets:category_detail' category.slug %}" class="btn btn-outline-primary btn-sm">
-                                Browse Category
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            {% empty %}
-                <div class="col-12 text-center">
-                    <p class="lead">No categories available.</p>
-                </div>
-            {% endfor %}
-        </div>
+<!-- Fab.com-style Horizontal Category Nav -->
+<section class="fab-categories py-4 bg-white" id="categories">
+  <div class="container">
+    <div class="fab-category-scroll d-flex gap-4 overflow-auto pb-2">
+      {% for category in categories %}
+        <a href="#" class="fab-category-link d-flex flex-column align-items-center text-decoration-none px-3 py-2">
+          <span class="fab-category-icon mb-1 fs-2">{{ category.icon }}</span>
+          <span class="fw-bold text-dark small">{{ category.name }}</span>
+        </a>
+      {% empty %}
+        <span class="text-muted">No categories available.</span>
+      {% endfor %}
     </div>
+  </div>
 </section>
 
 <!-- Recent Assets Section -->
-<section class="py-5">
+<section class="recent-assets py-5 bg-light">
     <div class="container">
-        <div class="row">
-            <div class="col-12 text-center mb-5">
-                <h2 class="display-5 fw-bold">Latest Assets</h2>
-                <p class="lead">Fresh content from our community</p>
-            </div>
+        <div class="section-header text-center mb-5">
+            <h2 class="fw-bold">Latest Assets</h2>
+            <p class="lead">Fresh content from our community</p>
         </div>
-        
-        <div class="row">
+        <div class="row" id="recent-assets">
             {% for asset in recent_assets %}
-                <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                <div class="col-md-3 mb-4">
                     <div class="card h-100 shadow-sm">
-                        <div class="position-relative">
-                            {% if asset.preview_image %}
-                                <img src="{{ asset.preview_image.url }}" class="card-img-top" alt="{{ asset.title }}" style="height: 150px; object-fit: cover;">
-                            {% else %}
-                                <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 150px;">
-                                    <i class="fas fa-image fa-2x text-muted"></i>
-                                </div>
-                            {% endif %}
-                            
-                            {% if asset.is_free %}
-                                <span class="badge bg-success position-absolute top-0 end-0 m-2">FREE</span>
-                            {% else %}
-                                <span class="badge bg-primary position-absolute top-0 end-0 m-2">${{ asset.price }}</span>
-                            {% endif %}
-                        </div>
-                        
+                        <img src="{{ asset.preview_image.url }}" class="card-img-top" alt="{{ asset.title }}">
                         <div class="card-body">
-                            <h6 class="card-title">
-                                <a href="{% url 'assets:asset_detail' asset.pk %}" class="text-decoration-none">
-                                    {{ asset.title|truncatewords:5 }}
-                                </a>
-                            </h6>
-                            <p class="card-text text-muted small">
-                                by {{ asset.owner.username }}
-                            </p>
-                            <small class="text-muted">{{ asset.category.name }}</small>
+                            <h6 class="card-title">{{ asset.title }}</h6>
+                            <p class="card-text">{{ asset.description|truncatewords:10 }}</p>
                         </div>
                     </div>
                 </div>
             {% empty %}
                 <div class="col-12 text-center">
-                    <p class="lead">No recent assets available.</p>
+                    <p>No recent assets available.</p>
                 </div>
             {% endfor %}
         </div>
@@ -183,94 +262,52 @@
 </section>
 
 <!-- Top Sellers Section -->
-<section class="py-5 bg-light">
+<section class="top-sellers py-5">
     <div class="container">
-        <div class="row">
-            <div class="col-12 text-center mb-5">
-                <h2 class="display-5 fw-bold">Top Sellers</h2>
-                <p class="lead">Meet our talented creators</p>
-            </div>
+        <div class="section-header text-center mb-5">
+            <h2 class="fw-bold">Top Sellers</h2>
+            <p class="lead">Meet our talented creators</p>
         </div>
-        
-        <div class="row">
+        <div class="row seller-grid justify-content-center">
             {% for seller in top_sellers %}
-                <div class="col-lg-2 col-md-4 col-sm-6 mb-4">
-                    <div class="card h-100 shadow-sm text-center">
-                        <div class="card-body">
-                            <div class="seller-avatar mb-3">
-                                {% if seller.profile_picture %}
-                                    <img src="{{ seller.profile_picture.url }}" alt="{{ seller.username }}" class="rounded-circle" width="60" height="60">
-                                {% else %}
-                                    <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center mx-auto" style="width: 60px; height: 60px;">
-                                        <i class="fas fa-user"></i>
-                                    </div>
-                                {% endif %}
+                <div class="col-md-2 col-6 mb-4">
+                    <div class="card h-100 shadow-sm text-center seller-card p-3">
+                        {% if seller.profile_picture %}
+                            <img src="{{ seller.profile_picture.url }}" alt="{{ seller.username }}" class="rounded-circle mb-2" width="60" height="60">
+                        {% else %}
+                            <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center mx-auto mb-2" style="width: 60px; height: 60px;">
+                                <i class="fas fa-user"></i>
                             </div>
-                            <h6 class="card-title">{{ seller.username }}</h6>
-                            <p class="card-text small text-muted">
-                                {{ seller.assets.count }} assets
-                            </p>
-                            <a href="{% url 'accounts:seller_profile' seller.username %}" class="btn btn-outline-primary btn-sm">
-                                View Profile
-                            </a>
-                        </div>
+                        {% endif %}
+                        <h6 class="card-title">{{ seller.username }}</h6>
+                        <p class="card-text small text-muted">{{ seller.assets.count }} assets</p>
                     </div>
                 </div>
             {% empty %}
                 <div class="col-12 text-center">
-                    <p class="lead">No sellers available.</p>
+                    <p>No sellers available.</p>
                 </div>
             {% endfor %}
         </div>
     </div>
 </section>
 
-<!-- Call to Action Section -->
-<section class="py-5 bg-primary text-white">
-    <div class="container">
-        <div class="row">
-            <div class="col-12 text-center">
-                <h2 class="display-5 fw-bold mb-4">Ready to Start Creating?</h2>
-                <p class="lead mb-4">Join thousands of developers who trust GameAssetHub for their projects.</p>
-                <div class="d-flex justify-content-center gap-3">
-                    {% if not user.is_authenticated %}
-                        <a href="{% url 'accounts:register' %}" class="btn btn-light btn-lg">
-                            <i class="fas fa-user-plus"></i> Sign Up Free
-                        </a>
-                    {% endif %}
-                    {% if user.is_authenticated and not user.is_seller %}
-                        <a href="{% url 'accounts:become_seller' %}" class="btn btn-outline-light btn-lg">
-                            <i class="fas fa-store"></i> Become a Seller
-                        </a>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-    </div>
+<!-- Fab.com-style Minimal CTA -->
+<section class="fab-cta-section py-7 bg-white text-center">
+  <div class="container">
+    <h2 class="display-5 fw-bold mb-4">Ready to Start Creating?</h2>
+    <p class="lead mb-5 text-secondary">Join thousands of developers who trust GameAssetHub for their projects.</p>
+    {% if not user.is_authenticated %}
+      <a href="{% url 'accounts:register' %}" class="btn btn-fab-primary btn-lg px-5 py-3 rounded-pill">Sign Up Free</a>
+    {% endif %}
+    {% if user.is_authenticated and not user.is_seller %}
+      <a href="{% url 'accounts:become_seller' %}" class="btn btn-outline-dark btn-lg px-5 py-3 rounded-pill ms-2">Become a Seller</a>
+    {% endif %}
+  </div>
 </section>
 {% endblock %}
 
 {% block extra_css %}
-<style>
-.category-card {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.category-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-}
-
-.hero-section {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-}
-
-.rating {
-    font-size: 0.9rem;
-}
-
-.seller-avatar img {
-    object-fit: cover;
-}
-</style>
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+<link rel="stylesheet" href="{% static 'css/home-animations.css' %}">
 {% endblock %}

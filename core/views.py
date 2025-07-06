@@ -10,23 +10,29 @@ from accounts.models import User
 
 def home(request):
     """Home page view"""
-    featured_assets = Asset.objects.filter(
-        status='approved', 
-        is_featured=True,
-        is_active=True
-    ).select_related('owner', 'category')[:6]
-    
+    featured_assets = {
+        'limited_free': Asset.objects.filter(
+            status='approved', is_featured=True, is_active=True, is_free=True
+        ).select_related('owner', 'category')[:6],
+        'on_sale': Asset.objects.filter(
+            status='approved', is_featured=True, is_active=True
+        ).exclude(is_free=True).order_by('price')[:6],
+        'recent': Asset.objects.filter(
+            status='approved', is_active=True
+        ).order_by('-created_at')[:6],
+    }
+
     categories = Category.objects.filter(is_active=True)
     recent_assets = Asset.objects.filter(
         status='approved',
         is_active=True
     ).select_related('owner', 'category')[:8]
-    
+
     top_sellers = User.objects.filter(
         is_seller=True,
         assets__status='approved'
     ).distinct()[:6]
-    
+
     context = {
         'featured_assets': featured_assets,
         'categories': categories,
